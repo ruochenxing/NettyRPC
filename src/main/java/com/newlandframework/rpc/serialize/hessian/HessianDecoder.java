@@ -19,16 +19,11 @@ import com.newlandframework.rpc.serialize.MessageCodecUtil;
 import com.newlandframework.rpc.serialize.MessageDecoder;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:HessianDecoder.java
- * @description:HessianDecoder功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * Hessian解码器
  */
 public class HessianDecoder extends MessageDecoder {
 
-    public HessianDecoder(MessageCodecUtil util) {
-        super(util);
-    }
+	public HessianDecoder(MessageCodecUtil util) {
+		super(util);
+	}
 }
-

@@ -26,47 +26,43 @@ import com.newlandframework.rpc.serialize.MessageCodecUtil;
 import com.google.common.io.Closer;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:KryoCodecUtil.java
- * @description:KryoCodecUtil功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * Kryo对RPC消息进行编码、解码的工具类
  */
 public class KryoCodecUtil implements MessageCodecUtil {
 
-    private KryoPool pool;
-    private static Closer closer = Closer.create();
+	private KryoPool pool;
+	private static Closer closer = Closer.create();
 
-    public KryoCodecUtil(KryoPool pool) {
-        this.pool = pool;
-    }
+	public KryoCodecUtil(KryoPool pool) {
+		this.pool = pool;
+	}
 
-    @Override
-    public void encode(final ByteBuf out, final Object message) throws IOException {
-        try {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            closer.register(byteArrayOutputStream);
-            KryoSerialize kryoSerialization = new KryoSerialize(pool);
-            kryoSerialization.serialize(byteArrayOutputStream, message);
-            byte[] body = byteArrayOutputStream.toByteArray();
-            int dataLength = body.length;
-            out.writeInt(dataLength);
-            out.writeBytes(body);
-        } finally {
-            closer.close();
-        }
-    }
+	@Override
+	public void encode(final ByteBuf out, final Object message) throws IOException {
+		try {
+			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+			closer.register(byteArrayOutputStream);
+			KryoSerialize kryoSerialization = new KryoSerialize(pool);
+			kryoSerialization.serialize(byteArrayOutputStream, message);
+			byte[] body = byteArrayOutputStream.toByteArray();
+			int dataLength = body.length;
+			out.writeInt(dataLength);
+			out.writeBytes(body);
+		} finally {
+			closer.close();
+		}
+	}
 
-    @Override
-    public Object decode(byte[] body) throws IOException {
-        try {
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(body);
-            closer.register(byteArrayInputStream);
-            KryoSerialize kryoSerialization = new KryoSerialize(pool);
-            Object obj = kryoSerialization.deserialize(byteArrayInputStream);
-            return obj;
-        } finally {
-            closer.close();
-        }
-    }
+	@Override
+	public Object decode(byte[] body) throws IOException {
+		try {
+			ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(body);
+			closer.register(byteArrayInputStream);
+			KryoSerialize kryoSerialization = new KryoSerialize(pool);
+			Object obj = kryoSerialization.deserialize(byteArrayInputStream);
+			return obj;
+		} finally {
+			closer.close();
+		}
+	}
 }

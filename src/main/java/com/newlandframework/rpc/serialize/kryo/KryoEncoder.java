@@ -19,16 +19,11 @@ import com.newlandframework.rpc.serialize.MessageCodecUtil;
 import com.newlandframework.rpc.serialize.MessageEncoder;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:KryoEncoder.java
- * @description:KryoEncoder功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * Kryo自己的编码器、解码器，其实只要调用Kryo编解码工具类（KryoCodecUtil）里面的encode、decode方法就可以了
  */
 public class KryoEncoder extends MessageEncoder {
 
-    public KryoEncoder(MessageCodecUtil util) {
-        super(util);
-    }
+	public KryoEncoder(MessageCodecUtil util) {
+		super(util);
+	}
 }
-

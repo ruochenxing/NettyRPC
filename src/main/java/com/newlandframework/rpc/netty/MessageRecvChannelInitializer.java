@@ -24,29 +24,27 @@ import java.util.Map;
 import com.newlandframework.rpc.serialize.RpcSerializeProtocol;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:MessageRecvChannelInitializer.java
- * @description:MessageRecvChannelInitializer功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * Rpc服务端管道初始化
+ * 
+ * 引入了序列化消息对象（RpcSerializeProtocol）
  */
 public class MessageRecvChannelInitializer extends ChannelInitializer<SocketChannel> {
 
-    private RpcSerializeProtocol protocol;
-    private RpcRecvSerializeFrame frame = null;
+	private RpcSerializeProtocol protocol;
+	private RpcRecvSerializeFrame frame = null;
 
-    MessageRecvChannelInitializer buildRpcSerializeProtocol(RpcSerializeProtocol protocol) {
-        this.protocol = protocol;
-        return this;
-    }
+	MessageRecvChannelInitializer buildRpcSerializeProtocol(RpcSerializeProtocol protocol) {
+		this.protocol = protocol;
+		return this;
+	}
 
-    MessageRecvChannelInitializer(Map<String, Object> handlerMap) {
-        frame = new RpcRecvSerializeFrame(handlerMap);
-    }
+	MessageRecvChannelInitializer(Map<String, Object> handlerMap) {
+		frame = new RpcRecvSerializeFrame(handlerMap);
+	}
 
-    @Override
-    protected void initChannel(SocketChannel socketChannel) throws Exception {
-        ChannelPipeline pipeline = socketChannel.pipeline();
-        frame.select(protocol, pipeline);
-    }
+	@Override
+	protected void initChannel(SocketChannel socketChannel) throws Exception {
+		ChannelPipeline pipeline = socketChannel.pipeline();
+		frame.select(protocol, pipeline);
+	}
 }

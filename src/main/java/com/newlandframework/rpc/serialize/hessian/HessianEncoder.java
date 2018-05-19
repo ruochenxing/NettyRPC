@@ -19,16 +19,11 @@ import com.newlandframework.rpc.serialize.MessageCodecUtil;
 import com.newlandframework.rpc.serialize.MessageEncoder;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:HessianEncoder.java
- * @description:HessianEncoder功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * Hessian编码器
  */
 public class HessianEncoder extends MessageEncoder {
 
-    public HessianEncoder(MessageCodecUtil util) {
-        super(util);
-    }
+	public HessianEncoder(MessageCodecUtil util) {
+		super(util);
+	}
 }
-

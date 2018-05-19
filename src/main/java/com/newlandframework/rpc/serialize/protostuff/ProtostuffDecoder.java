@@ -18,17 +18,9 @@ package com.newlandframework.rpc.serialize.protostuff;
 import com.newlandframework.rpc.serialize.MessageCodecUtil;
 import com.newlandframework.rpc.serialize.MessageDecoder;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:ProtostuffDecoder.java
- * @description:ProtostuffDecoder功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
- */
 public class ProtostuffDecoder extends MessageDecoder {
 
-    public ProtostuffDecoder(MessageCodecUtil util) {
-        super(util);
-    }
+	public ProtostuffDecoder(MessageCodecUtil util) {
+		super(util);
+	}
 }
-

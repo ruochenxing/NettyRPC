@@ -22,39 +22,32 @@ import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:AddCalcParallelRequestThread.java
- * @description:AddCalcParallelRequestThread功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
- */
 public class AddCalcParallelRequestThread implements Runnable {
 
-    private CountDownLatch signal;
-    private CountDownLatch finish;
-    private int taskNumber = 0;
-    private AddCalculate calc;
+	private CountDownLatch signal;
+	private CountDownLatch finish;
+	private int taskNumber = 0;
+	private AddCalculate calc;
 
-    public AddCalcParallelRequestThread(AddCalculate calc, CountDownLatch signal, CountDownLatch finish, int taskNumber) {
-        this.signal = signal;
-        this.finish = finish;
-        this.taskNumber = taskNumber;
-        this.calc = calc;
-    }
+	public AddCalcParallelRequestThread(AddCalculate calc, CountDownLatch signal, CountDownLatch finish,
+			int taskNumber) {
+		this.signal = signal;
+		this.finish = finish;
+		this.taskNumber = taskNumber;
+		this.calc = calc;
+	}
 
-    public void run() {
-        try {
-            signal.await();
-            int add = calc.add(taskNumber, taskNumber);
-            System.out.println("calc add result:[" + add + "]");
-        } catch (InterruptedException ex) {
-            Logger.getLogger(AddCalcParallelRequestThread.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvokeTimeoutException ex) {
-            System.out.println(ex.getMessage());
-        } finally {
-            finish.countDown();
-        }
-    }
+	public void run() {
+		try {
+			signal.await();// 挂起
+			int add = calc.add(taskNumber, taskNumber);
+			System.out.println("calc add result:[" + add + "]");
+		} catch (InterruptedException ex) {
+			Logger.getLogger(AddCalcParallelRequestThread.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (InvokeTimeoutException ex) {
+			System.out.println(ex.getMessage());
+		} finally {
+			finish.countDown();
+		}
+	}
 }
-

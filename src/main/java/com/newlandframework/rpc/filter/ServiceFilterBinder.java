@@ -16,30 +16,25 @@
 package com.newlandframework.rpc.filter;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:ServiceFilterBinder.java
- * @description:ServiceFilterBinder功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2017/7/27
+ * 
  */
 public class ServiceFilterBinder {
-    private Object object;
-    private Filter filter;
+	private Object object;
+	private Filter filter;
 
-    public Object getObject() {
-        return object;
-    }
+	public Object getObject() {
+		return object;
+	}
 
-    public void setObject(Object object) {
-        this.object = object;
-    }
+	public void setObject(Object object) {
+		this.object = object;
+	}
 
-    public Filter getFilter() {
-        return filter;
-    }
+	public Filter getFilter() {
+		return filter;
+	}
 
-    public void setFilter(Filter filter) {
-        this.filter = filter;
-    }
+	public void setFilter(Filter filter) {
+		this.filter = filter;
+	}
 }
-

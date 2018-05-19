@@ -18,55 +18,49 @@ package com.newlandframework.rpc.services.pojo;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:Person.java
- * @description:Person功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/11/7
- */
 public class Person implements Serializable {
-    private int id;
-    private String name;
-    private int age;
-    private Date birthday;
+	private static final long serialVersionUID = 2601085399645067252L;
+	private int id;
+	private String name;
+	private int age;
+	private Date birthday;
 
-    public Date getBirthday() {
-        return birthday;
-    }
+	public Date getBirthday() {
+		return birthday;
+	}
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
 
-    public int getId() {
+	public int getId() {
 
-        return id;
-    }
+		return id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public int getAge() {
-        return age;
-    }
+	public int getAge() {
+		return age;
+	}
 
-    public void setAge(int age) {
-        this.age = age;
-    }
+	public void setAge(int age) {
+		this.age = age;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    @Override
-    public String toString() {
-        return birthday != null ? String.format("Person <<id:%d name:%s age:%d birthday:%s>>", id, name, age, birthday) : String.format("Person <<id:%d name:%s age:%d>>", id, name, age);
-    }
+	@Override
+	public String toString() {
+		return birthday != null ? String.format("Person <<id:%d name:%s age:%d birthday:%s>>", id, name, age, birthday)
+				: String.format("Person <<id:%d name:%s age:%d>>", id, name, age);
+	}
 }
-

@@ -34,58 +34,60 @@ import com.newlandframework.rpc.model.MessageResponse;
  * @description:MessageSendHandler功能模块
  * @blogs http://www.cnblogs.com/jietang/
  * @since 2016/10/7
+ * 
+ *        Rpc客户端处理模块
  */
 public class MessageSendHandler extends ChannelInboundHandlerAdapter {
 
-    private ConcurrentHashMap<String, MessageCallBack> mapCallBack = new ConcurrentHashMap<String, MessageCallBack>();
-    private volatile Channel channel;
-    private SocketAddress remoteAddr;
+	private ConcurrentHashMap<String, MessageCallBack> mapCallBack = new ConcurrentHashMap<String, MessageCallBack>();
+	private volatile Channel channel;
+	private SocketAddress remoteAddr;
 
-    public Channel getChannel() {
-        return channel;
-    }
+	public Channel getChannel() {
+		return channel;
+	}
 
-    public SocketAddress getRemoteAddr() {
-        return remoteAddr;
-    }
+	public SocketAddress getRemoteAddr() {
+		return remoteAddr;
+	}
 
-    @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        super.channelActive(ctx);
-        this.remoteAddr = this.channel.remoteAddress();
-    }
+	@Override
+	public void channelActive(ChannelHandlerContext ctx) throws Exception {
+		super.channelActive(ctx);
+		this.remoteAddr = this.channel.remoteAddress();
+	}
 
-    @Override
-    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-        super.channelRegistered(ctx);
-        this.channel = ctx.channel();
-    }
+	@Override
+	public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+		super.channelRegistered(ctx);
+		this.channel = ctx.channel();
+	}
 
-    @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        MessageResponse response = (MessageResponse) msg;
-        String messageId = response.getMessageId();
-        MessageCallBack callBack = mapCallBack.get(messageId);
-        if (callBack != null) {
-            mapCallBack.remove(messageId);
-            callBack.over(response);
-        }
-    }
+	@Override
+	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+		MessageResponse response = (MessageResponse) msg;
+		String messageId = response.getMessageId();
+		MessageCallBack callBack = mapCallBack.get(messageId);
+		if (callBack != null) {
+			mapCallBack.remove(messageId);
+			callBack.over(response);
+		}
+	}
 
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        cause.printStackTrace();
-        ctx.close();
-    }
+	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+		cause.printStackTrace();
+		ctx.close();
+	}
 
-    public void close() {
-        channel.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
-    }
+	public void close() {
+		channel.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
+	}
 
-    public MessageCallBack sendRequest(MessageRequest request) {
-        MessageCallBack callBack = new MessageCallBack(request);
-        mapCallBack.put(request.getMessageId(), callBack);
-        channel.writeAndFlush(request);
-        return callBack;
-    }
+	public MessageCallBack sendRequest(MessageRequest request) {
+		MessageCallBack callBack = new MessageCallBack(request);
+		mapCallBack.put(request.getMessageId(), callBack);
+		channel.writeAndFlush(request);
+		return callBack;
+	}
 }

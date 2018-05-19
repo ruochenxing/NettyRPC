@@ -17,36 +17,29 @@ package com.newlandframework.rpc.services.pojo;
 
 import java.io.Serializable;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:CostTime.java
- * @description:CostTime功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2017/3/22
- */
 public class CostTime implements Serializable {
-    public long elapse;
-    public String detail;
+	private static final long serialVersionUID = -1551148242504537592L;
+	public long elapse;
+	public String detail;
 
-    public long getElapse() {
-        return elapse;
-    }
+	public long getElapse() {
+		return elapse;
+	}
 
-    public void setElapse(long elapse) {
-        this.elapse = elapse;
-    }
+	public void setElapse(long elapse) {
+		this.elapse = elapse;
+	}
 
-    public String getDetail() {
-        return detail;
-    }
+	public String getDetail() {
+		return detail;
+	}
 
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
 
-    @Override
-    public String toString() {
-        return "CostTime [elapse=" + elapse + ", detail=" + detail + "]";
-    }
+	@Override
+	public String toString() {
+		return "CostTime [elapse=" + elapse + ", detail=" + detail + "]";
+	}
 }
-

@@ -18,17 +18,9 @@ package com.newlandframework.rpc.serialize.protostuff;
 import com.newlandframework.rpc.serialize.MessageCodecUtil;
 import com.newlandframework.rpc.serialize.MessageEncoder;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:ProtostuffEncoder.java
- * @description:ProtostuffEncoder功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
- */
 public class ProtostuffEncoder extends MessageEncoder {
 
-    public ProtostuffEncoder(MessageCodecUtil util) {
-        super(util);
-    }
+	public ProtostuffEncoder(MessageCodecUtil util) {
+		super(util);
+	}
 }
-

@@ -18,15 +18,12 @@ package com.newlandframework.rpc.boot;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:RpcServerStarter.java
- * @description:RpcServerStarter功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * start
  */
 public class RpcServerStarter {
-    public static void main(String[] args) {
-        new ClassPathXmlApplicationContext("classpath:rpc-invoke-config-server.xml");
-    }
+	@SuppressWarnings({ "unused", "resource" })
+	public static void main(String[] args) {
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+				"classpath:rpc-invoke-config-server.xml");
+	}
 }
-

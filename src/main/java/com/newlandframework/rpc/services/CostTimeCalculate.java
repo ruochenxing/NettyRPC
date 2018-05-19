@@ -17,16 +17,8 @@ package com.newlandframework.rpc.services;
 
 import com.newlandframework.rpc.services.pojo.CostTime;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:CostTimeCalculate.java
- * @description:CostTimeCalculate功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2017/3/22
- */
 public interface CostTimeCalculate {
-    CostTime calculate();
+	CostTime calculate();
 
-    CostTime busy();
+	CostTime busy();
 }
-

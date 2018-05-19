@@ -21,32 +21,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:CallerRunsPolicy.java
- * @description:CallerRunsPolicy功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * 不抛弃任务，也不抛出异常，而是调用者自己来运行。这个是主要是因为过多的并行请求会加剧系统的负载，
+ * 线程之间调度操作系统会频繁的进行上下文切换。当遇到线程池满的情况，与其频繁的切换、中断。
+ * 不如把并行的请求，全部串行化处理，保证尽量少的处理延时，大概是我能想到的Doug Lea的设计初衷吧。
  */
 public class CallerRunsPolicy extends ThreadPoolExecutor.CallerRunsPolicy {
-    private static final Logger LOG = LoggerFactory.getLogger(CallerRunsPolicy.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CallerRunsPolicy.class);
 
-    private String threadName;
+	private String threadName;
 
-    public CallerRunsPolicy() {
-        this(null);
-    }
+	public CallerRunsPolicy() {
+		this(null);
+	}
 
-    public CallerRunsPolicy(String threadName) {
-        this.threadName = threadName;
-    }
+	public CallerRunsPolicy(String threadName) {
+		this.threadName = threadName;
+	}
 
-    @Override
-    public void rejectedExecution(Runnable runnable, ThreadPoolExecutor executor) {
-        if (threadName != null) {
-            LOG.error("RPC Thread pool [{}] is exhausted, executor={}", threadName, executor.toString());
-        }
+	@Override
+	public void rejectedExecution(Runnable runnable, ThreadPoolExecutor executor) {
+		if (threadName != null) {
+			LOG.error("RPC Thread pool [{}] is exhausted, executor={}", threadName, executor.toString());
+		}
 
-        super.rejectedExecution(runnable, executor);
-    }
+		super.rejectedExecution(runnable, executor);
+	}
 }
-

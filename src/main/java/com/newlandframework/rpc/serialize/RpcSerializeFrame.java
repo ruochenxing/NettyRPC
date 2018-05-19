@@ -18,13 +18,8 @@ package com.newlandframework.rpc.serialize;
 import io.netty.channel.ChannelPipeline;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:RpcSerializeFrame.java
- * @description:RpcSerializeFrame功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * 抽象一个RPC消息序列化协议选择器接口
  */
 public interface RpcSerializeFrame {
-    void select(RpcSerializeProtocol protocol, ChannelPipeline pipeline);
+	void select(RpcSerializeProtocol protocol, ChannelPipeline pipeline);
 }
-

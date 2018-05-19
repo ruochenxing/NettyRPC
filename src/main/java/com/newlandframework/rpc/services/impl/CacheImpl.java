@@ -22,33 +22,30 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:CacheImpl.java
- * @description:CacheImpl功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2017/7/28
+ * service impl
  */
 public class CacheImpl implements Cache {
-    private final Map<Object, Object> store;
+	private final Map<Object, Object> store;
 
-    public CacheImpl() {
-        final int max = 256;
-        this.store = new LinkedHashMap<Object, Object>() {
-            @Override
-            protected boolean removeEldestEntry(Entry<Object, Object> eldest) {
-                return size() > max;
-            }
-        };
-    }
+	public CacheImpl() {
+		final int max = 256;
+		this.store = new LinkedHashMap<Object, Object>() {
+			private static final long serialVersionUID = 8068502748474203310L;
 
-    @Override
-    public void put(Object key, Object value) {
-        store.put(key, value);
-    }
+			@Override
+			protected boolean removeEldestEntry(Entry<Object, Object> eldest) {
+				return size() > max;
+			}
+		};
+	}
 
-    @Override
-    public Object get(Object key) {
-        return store.get(key);
-    }
+	@Override
+	public void put(Object key, Object value) {
+		store.put(key, value);
+	}
+
+	@Override
+	public Object get(Object key) {
+		return store.get(key);
+	}
 }
-

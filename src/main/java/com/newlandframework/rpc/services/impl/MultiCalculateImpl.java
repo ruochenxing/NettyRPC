@@ -18,16 +18,12 @@ package com.newlandframework.rpc.services.impl;
 import com.newlandframework.rpc.services.MultiCalculate;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:CalculateImpl.java
- * @description:CalculateImpl功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * service impl
  */
 public class MultiCalculateImpl implements MultiCalculate {
-    //两数相乘
-    @Override
-    public int multi(int a, int b) {
-        return a * b;
-    }
+	// 两数相乘
+	@Override
+	public int multi(int a, int b) {
+		return a * b;
+	}
 }

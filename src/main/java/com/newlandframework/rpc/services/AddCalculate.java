@@ -15,15 +15,7 @@
  */
 package com.newlandframework.rpc.services;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:Calculate.java
- * @description:Calculate功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
- */
 public interface AddCalculate {
-    //两数相加
-    int add(int a, int b);
+	// 两数相加
+	int add(int a, int b);
 }
-

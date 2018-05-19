@@ -26,73 +26,68 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:NettyRpcRegistery.java
- * @description:NettyRpcRegistery功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * nettyrpc:registry自定义标签实体类
+ * https://blog.csdn.net/cutesource/article/details/5864562
  */
 public class NettyRpcRegistery implements InitializingBean, DisposableBean {
-    private String ipAddr;
-    private String protocol;
-    private String echoApiPort;
-    private AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+	private String ipAddr;
+	private String protocol;
+	private String echoApiPort;
+	private AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
 
-    @Override
-    public void destroy() throws Exception {
-        MessageRecvExecutor.getInstance().stop();
+	@Override
+	public void destroy() throws Exception {
+		MessageRecvExecutor.getInstance().stop();
 
-        if (RpcSystemConfig.SYSTEM_PROPERTY_JMX_METRICS_SUPPORT) {
-            ModuleMetricsHandler handler = ModuleMetricsHandler.getInstance();
-            handler.stop();
-        }
-    }
+		if (RpcSystemConfig.SYSTEM_PROPERTY_JMX_METRICS_SUPPORT) {
+			ModuleMetricsHandler handler = ModuleMetricsHandler.getInstance();
+			handler.stop();
+		}
+	}
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        MessageRecvExecutor ref = MessageRecvExecutor.getInstance();
-        ref.setServerAddress(ipAddr);
-        ref.setEchoApiPort(Integer.parseInt(echoApiPort));
-        ref.setSerializeProtocol(Enum.valueOf(RpcSerializeProtocol.class, protocol));
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		MessageRecvExecutor ref = MessageRecvExecutor.getInstance();
+		ref.setServerAddress(ipAddr);
+		ref.setEchoApiPort(Integer.parseInt(echoApiPort));
+		ref.setSerializeProtocol(Enum.valueOf(RpcSerializeProtocol.class, protocol));
 
-        if (RpcSystemConfig.isMonitorServerSupport()) {
-            context.register(ThreadPoolMonitorProvider.class);
-            context.refresh();
-        }
+		if (RpcSystemConfig.isMonitorServerSupport()) {
+			context.register(ThreadPoolMonitorProvider.class);
+			context.refresh();
+		}
 
-        ref.start();
+		ref.start();
 
-        if (RpcSystemConfig.SYSTEM_PROPERTY_JMX_METRICS_SUPPORT) {
-            HashModuleMetricsVisitor visitor = HashModuleMetricsVisitor.getInstance();
-            visitor.signal();
-            ModuleMetricsHandler handler = ModuleMetricsHandler.getInstance();
-            handler.start();
-        }
-    }
+		if (RpcSystemConfig.SYSTEM_PROPERTY_JMX_METRICS_SUPPORT) {
+			HashModuleMetricsVisitor visitor = HashModuleMetricsVisitor.getInstance();
+			visitor.signal();
+			ModuleMetricsHandler handler = ModuleMetricsHandler.getInstance();
+			handler.start();
+		}
+	}
 
-    public String getIpAddr() {
-        return ipAddr;
-    }
+	public String getIpAddr() {
+		return ipAddr;
+	}
 
-    public void setIpAddr(String ipAddr) {
-        this.ipAddr = ipAddr;
-    }
+	public void setIpAddr(String ipAddr) {
+		this.ipAddr = ipAddr;
+	}
 
-    public String getProtocol() {
-        return protocol;
-    }
+	public String getProtocol() {
+		return protocol;
+	}
 
-    public void setProtocol(String protocol) {
-        this.protocol = protocol;
-    }
+	public void setProtocol(String protocol) {
+		this.protocol = protocol;
+	}
 
-    public String getEchoApiPort() {
-        return echoApiPort;
-    }
+	public String getEchoApiPort() {
+		return echoApiPort;
+	}
 
-    public void setEchoApiPort(String echoApiPort) {
-        this.echoApiPort = echoApiPort;
-    }
+	public void setEchoApiPort(String echoApiPort) {
+		this.echoApiPort = echoApiPort;
+	}
 }
-
-

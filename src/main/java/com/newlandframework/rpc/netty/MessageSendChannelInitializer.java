@@ -21,25 +21,21 @@ import io.netty.channel.socket.SocketChannel;
 import com.newlandframework.rpc.serialize.RpcSerializeProtocol;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:MessageSendChannelInitializer.java
- * @description:MessageSendChannelInitializer功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * Rpc客户端管道初始化
  */
 public class MessageSendChannelInitializer extends ChannelInitializer<SocketChannel> {
 
-    private RpcSerializeProtocol protocol;
-    private RpcSendSerializeFrame frame = new RpcSendSerializeFrame();
+	private RpcSerializeProtocol protocol;
+	private RpcSendSerializeFrame frame = new RpcSendSerializeFrame();
 
-    MessageSendChannelInitializer buildRpcSerializeProtocol(RpcSerializeProtocol protocol) {
-        this.protocol = protocol;
-        return this;
-    }
+	MessageSendChannelInitializer buildRpcSerializeProtocol(RpcSerializeProtocol protocol) {
+		this.protocol = protocol;
+		return this;
+	}
 
-    @Override
-    protected void initChannel(SocketChannel socketChannel) throws Exception {
-        ChannelPipeline pipeline = socketChannel.pipeline();
-        frame.select(protocol, pipeline);
-    }
+	@Override
+	protected void initChannel(SocketChannel socketChannel) throws Exception {
+		ChannelPipeline pipeline = socketChannel.pipeline();
+		frame.select(protocol, pipeline);
+	}
 }

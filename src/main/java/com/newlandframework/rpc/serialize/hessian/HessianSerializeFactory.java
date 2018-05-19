@@ -20,26 +20,21 @@ import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:HessianSerializeFactory.java
- * @description:HessianSerializeFactory功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * 利用对象池（Object Pooling）技术，对Hessian序列化/反序列化类（HessianSerialize）进行池化处理
  */
 public class HessianSerializeFactory extends BasePooledObjectFactory<HessianSerialize> {
 
-    @Override
-    public HessianSerialize create() throws Exception {
-        return createHessian();
-    }
+	@Override
+	public HessianSerialize create() throws Exception {
+		return createHessian();
+	}
 
-    @Override
-    public PooledObject<HessianSerialize> wrap(HessianSerialize hessian) {
-        return new DefaultPooledObject<HessianSerialize>(hessian);
-    }
+	@Override
+	public PooledObject<HessianSerialize> wrap(HessianSerialize hessian) {
+		return new DefaultPooledObject<HessianSerialize>(hessian);
+	}
 
-    private HessianSerialize createHessian() {
-        return new HessianSerialize();
-    }
+	private HessianSerialize createHessian() {
+		return new HessianSerialize();
+	}
 }
-

@@ -25,33 +25,30 @@ import com.newlandframework.rpc.model.MessageRequest;
 import com.newlandframework.rpc.model.MessageResponse;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:MessageRecvHandler.java
- * @description:MessageRecvHandler功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * Rpc服务器消息处理
  */
 public class MessageRecvHandler extends ChannelInboundHandlerAdapter {
 
-    private final Map<String, Object> handlerMap;
+	private final Map<String, Object> handlerMap;
 
-    public MessageRecvHandler(Map<String, Object> handlerMap) {
-        this.handlerMap = handlerMap;
-    }
+	public MessageRecvHandler(Map<String, Object> handlerMap) {
+		this.handlerMap = handlerMap;
+	}
 
-    @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        MessageRequest request = (MessageRequest) msg;
-        MessageResponse response = new MessageResponse();
-        RecvInitializeTaskFacade facade = new RecvInitializeTaskFacade(request, response, handlerMap);
-        Callable<Boolean> recvTask = facade.getTask();
-        MessageRecvExecutor.submit(recvTask, ctx, request, response);
-    }
+	@Override
+	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+		MessageRequest request = (MessageRequest) msg;
+		MessageResponse response = new MessageResponse();
+		RecvInitializeTaskFacade facade = new RecvInitializeTaskFacade(request, response, handlerMap);
+		Callable<Boolean> recvTask = facade.getTask();
+		// 不要阻塞nio线程，复杂的业务逻辑丢给专门的线程池
+		MessageRecvExecutor.submit(recvTask, ctx, request, response);
+	}
 
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        cause.printStackTrace();
-        ctx.close();
-    }
+	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+		cause.printStackTrace();
+		// 网络有异常要关闭通道
+		ctx.close();
+	}
 }
-

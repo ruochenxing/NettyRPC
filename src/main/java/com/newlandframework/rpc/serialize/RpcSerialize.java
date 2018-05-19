@@ -20,16 +20,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:RpcSerialize.java
- * @description:RpcSerialize功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * RPC消息序列化/反序列化接口定义
  */
 public interface RpcSerialize {
 
-    void serialize(OutputStream output, Object object) throws IOException;
+	void serialize(OutputStream output, Object object) throws IOException;
 
-    Object deserialize(InputStream input) throws IOException;
+	Object deserialize(InputStream input) throws IOException;
 }
-

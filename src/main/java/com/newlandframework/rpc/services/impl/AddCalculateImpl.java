@@ -18,16 +18,12 @@ package com.newlandframework.rpc.services.impl;
 import com.newlandframework.rpc.services.AddCalculate;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:CalculateImpl.java
- * @description:CalculateImpl功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * service impl
  */
 public class AddCalculateImpl implements AddCalculate {
-    //两数相加
-    @Override
-    public int add(int a, int b) {
-        return a + b;
-    }
+	// 两数相加
+	@Override
+	public int add(int a, int b) {
+		return a + b;
+	}
 }

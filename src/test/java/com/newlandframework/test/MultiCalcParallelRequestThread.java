@@ -23,38 +23,34 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:MultiCalcParallelRequestThread.java
- * @description:MultiCalcParallelRequestThread功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * 并发线程模拟
  */
 public class MultiCalcParallelRequestThread implements Runnable {
 
-    private CountDownLatch signal;
-    private CountDownLatch finish;
-    private int taskNumber = 0;
-    private MultiCalculate calc;
+	private CountDownLatch signal;
+	private CountDownLatch finish;
+	private int taskNumber = 0;
+	private MultiCalculate calc;
 
-    public MultiCalcParallelRequestThread(MultiCalculate calc, CountDownLatch signal, CountDownLatch finish, int taskNumber) {
-        this.signal = signal;
-        this.finish = finish;
-        this.taskNumber = taskNumber;
-        this.calc = calc;
-    }
+	public MultiCalcParallelRequestThread(MultiCalculate calc, CountDownLatch signal, CountDownLatch finish,
+			int taskNumber) {
+		this.signal = signal;
+		this.finish = finish;
+		this.taskNumber = taskNumber;
+		this.calc = calc;
+	}
 
-    public void run() {
-        try {
-            signal.await();
-            int multi = calc.multi(taskNumber, taskNumber);
-            System.out.println("calc multi result:[" + multi + "]");
-        } catch (InterruptedException ex) {
-            Logger.getLogger(MultiCalcParallelRequestThread.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvokeTimeoutException ex) {
-            System.out.println(ex.getMessage());
-        } finally {
-            finish.countDown();
-        }
-    }
+	public void run() {
+		try {
+			signal.await();// 挂起
+			int multi = calc.multi(taskNumber, taskNumber);
+			System.out.println("calc multi result:[" + multi + "]");
+		} catch (InterruptedException ex) {
+			Logger.getLogger(MultiCalcParallelRequestThread.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (InvokeTimeoutException ex) {
+			System.out.println(ex.getMessage());
+		} finally {
+			finish.countDown();
+		}
+	}
 }
-

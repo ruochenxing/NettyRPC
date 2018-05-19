@@ -20,17 +20,14 @@ import io.netty.buffer.ByteBuf;
 import java.io.IOException;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:MessageCodecUtil.java
- * @description:MessageCodecUtil功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * RPC消息编解码接口
  */
 public interface MessageCodecUtil {
 
-    final static int MESSAGE_LENGTH = 4;
+	// RPC消息报文头长度4个字节
+	final static int MESSAGE_LENGTH = 4;
 
-    void encode(final ByteBuf out, final Object message) throws IOException;
+	void encode(final ByteBuf out, final Object message) throws IOException;
 
-    Object decode(byte[] body) throws IOException;
+	Object decode(byte[] body) throws IOException;
 }

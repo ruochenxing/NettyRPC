@@ -26,38 +26,34 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:KryoSerialize.java
- * @description:KryoSerialize功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * Kryo序列化/反序列化实现
  */
 public class KryoSerialize implements RpcSerialize {
 
-    private KryoPool pool = null;
+	private KryoPool pool = null;
 
-    public KryoSerialize(final KryoPool pool) {
-        this.pool = pool;
-    }
+	public KryoSerialize(final KryoPool pool) {
+		this.pool = pool;
+	}
 
-    @Override
-    public void serialize(OutputStream output, Object object) throws IOException {
-        Kryo kryo = pool.borrow();
-        Output out = new Output(output);
-        kryo.writeClassAndObject(out, object);
-        out.close();
-        output.close();
-        pool.release(kryo);
-    }
+	@Override
+	public void serialize(OutputStream output, Object object) throws IOException {
+		Kryo kryo = pool.borrow();
+		Output out = new Output(output);
+		kryo.writeClassAndObject(out, object);
+		out.close();
+		output.close();
+		pool.release(kryo);
+	}
 
-    @Override
-    public Object deserialize(InputStream input) throws IOException {
-        Kryo kryo = pool.borrow();
-        Input in = new Input(input);
-        Object result = kryo.readClassAndObject(in);
-        in.close();
-        input.close();
-        pool.release(kryo);
-        return result;
-    }
+	@Override
+	public Object deserialize(InputStream input) throws IOException {
+		Kryo kryo = pool.borrow();
+		Input in = new Input(input);
+		Object result = kryo.readClassAndObject(in);
+		in.close();
+		input.close();
+		pool.release(kryo);
+		return result;
+	}
 }

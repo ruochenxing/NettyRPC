@@ -15,10 +15,6 @@
  */
 package com.newlandframework.rpc.spring;
 
-import com.newlandframework.rpc.event.ServerStartEvent;
-import com.newlandframework.rpc.filter.ServiceFilterBinder;
-import com.newlandframework.rpc.filter.Filter;
-import com.newlandframework.rpc.netty.MessageRecvExecutor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -26,65 +22,74 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 
+import com.newlandframework.rpc.event.ServerStartEvent;
+import com.newlandframework.rpc.filter.Filter;
+import com.newlandframework.rpc.filter.ServiceFilterBinder;
+import com.newlandframework.rpc.netty.MessageRecvExecutor;
+
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:NettyRpcService.java
- * @description:NettyRpcService功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * nettyrpc:service自定义标签实体类
+ * 
+ * ApplicationListener ?? 当容器初始化完成之后，需要处理一些操作，比如一些数据的加载、初始化缓存、特定任务的注册等等。
+ * 这个时候我们就可以使用Spring提供的ApplicationListener来进行操作。
+ * 
+ * 事件监听器
  */
-public class NettyRpcService implements ApplicationContextAware, ApplicationListener {
-    private String interfaceName;
-    private String ref;
-    private String filter;
-    private ApplicationContext applicationContext;
+public class NettyRpcService implements ApplicationContextAware, ApplicationListener<ApplicationEvent> {
+	private String interfaceName;
+	private String ref;
+	private String filter;
+	private ApplicationContext applicationContext;
 
-    @Override
-    public void onApplicationEvent(ApplicationEvent event) {
-        ServiceFilterBinder binder = new ServiceFilterBinder();
+	/***
+	 * 对消息进行接受处理
+	 */
+	@Override
+	public void onApplicationEvent(ApplicationEvent event) {
+		ServiceFilterBinder binder = new ServiceFilterBinder();
 
-        if (StringUtils.isBlank(filter) || !(applicationContext.getBean(filter) instanceof Filter)) {
-            binder.setObject(applicationContext.getBean(ref));
-        } else {
-            binder.setObject(applicationContext.getBean(ref));
-            binder.setFilter((Filter) applicationContext.getBean(filter));
-        }
+		if (StringUtils.isBlank(filter) || !(applicationContext.getBean(filter) instanceof Filter)) {
+			binder.setObject(applicationContext.getBean(ref));
+		} else {
+			binder.setObject(applicationContext.getBean(ref));
+			binder.setFilter((Filter) applicationContext.getBean(filter));
+		}
 
-        MessageRecvExecutor.getInstance().getHandlerMap().put(interfaceName, binder);
-    }
+		MessageRecvExecutor.getInstance().getHandlerMap().put(interfaceName, binder);
+	}
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext)
-            throws BeansException {
-        this.applicationContext = applicationContext;
-        applicationContext.publishEvent(new ServerStartEvent(new Object()));
-    }
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		this.applicationContext = applicationContext;
+		// 事件发布
+		applicationContext.publishEvent(new ServerStartEvent(new Object()));
+	}
 
-    public ApplicationContext getApplicationContext() {
-        return applicationContext;
-    }
+	public ApplicationContext getApplicationContext() {
+		return applicationContext;
+	}
 
-    public String getFilter() {
-        return filter;
-    }
+	public String getFilter() {
+		return filter;
+	}
 
-    public void setFilter(String filter) {
-        this.filter = filter;
-    }
+	public void setFilter(String filter) {
+		this.filter = filter;
+	}
 
-    public String getRef() {
-        return ref;
-    }
+	public String getRef() {
+		return ref;
+	}
 
-    public void setRef(String ref) {
-        this.ref = ref;
-    }
+	public void setRef(String ref) {
+		this.ref = ref;
+	}
 
-    public String getInterfaceName() {
-        return interfaceName;
-    }
+	public String getInterfaceName() {
+		return interfaceName;
+	}
 
-    public void setInterfaceName(String interfaceName) {
-        this.interfaceName = interfaceName;
-    }
+	public void setInterfaceName(String interfaceName) {
+		this.interfaceName = interfaceName;
+	}
 }

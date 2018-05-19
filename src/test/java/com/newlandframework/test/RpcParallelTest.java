@@ -24,77 +24,73 @@ import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:RpcParallelTest.java
- * @description:RpcParallelTest功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * rpc并发测试代码
  */
 public class RpcParallelTest {
 
-    public static void parallelAddCalcTask(AddCalculate calc, int parallel) throws InterruptedException {
-        //开始计时
-        StopWatch sw = new StopWatch();
-        sw.start();
+	public static void parallelAddCalcTask(AddCalculate calc, int parallel) throws InterruptedException {
+		// 开始计时
+		StopWatch sw = new StopWatch();
+		sw.start();
 
-        CountDownLatch signal = new CountDownLatch(1);
-        CountDownLatch finish = new CountDownLatch(parallel);
+		CountDownLatch signal = new CountDownLatch(1);
+		CountDownLatch finish = new CountDownLatch(parallel);
 
-        for (int index = 0; index < parallel; index++) {
-            AddCalcParallelRequestThread client = new AddCalcParallelRequestThread(calc, signal, finish, index);
-            new Thread(client).start();
-        }
+		for (int index = 0; index < parallel; index++) {
+			AddCalcParallelRequestThread client = new AddCalcParallelRequestThread(calc, signal, finish, index);
+			new Thread(client).start();
+		}
 
-        signal.countDown();
-        finish.await();
-        sw.stop();
+		signal.countDown();
+		finish.await();// 调用await()方法的线程会被挂起，它会等待直到count值为0才继续执行
+		sw.stop();
 
-        String tip = String.format("加法计算RPC调用总共耗时: [%s] 毫秒", sw.getTime());
-        System.out.println(tip);
-    }
+		String tip = String.format("加法计算RPC调用总共耗时: [%s] 毫秒", sw.getTime());
+		System.out.println(tip);
+	}
 
-    public static void parallelMultiCalcTask(MultiCalculate calc, int parallel) throws InterruptedException {
-        //开始计时
-        StopWatch sw = new StopWatch();
-        sw.start();
+	public static void parallelMultiCalcTask(MultiCalculate calc, int parallel) throws InterruptedException {
+		// 开始计时
+		StopWatch sw = new StopWatch();
+		sw.start();
 
-        CountDownLatch signal = new CountDownLatch(1);
-        CountDownLatch finish = new CountDownLatch(parallel);
+		CountDownLatch signal = new CountDownLatch(1);
+		CountDownLatch finish = new CountDownLatch(parallel);
 
-        for (int index = 0; index < parallel; index++) {
-            MultiCalcParallelRequestThread client = new MultiCalcParallelRequestThread(calc, signal, finish, index);
-            new Thread(client).start();
-        }
+		for (int index = 0; index < parallel; index++) {
+			MultiCalcParallelRequestThread client = new MultiCalcParallelRequestThread(calc, signal, finish, index);
+			new Thread(client).start();
+		}
 
-        signal.countDown();
-        finish.await();
-        sw.stop();
+		signal.countDown();
+		finish.await();// 挂起
+		sw.stop();
 
-        String tip = String.format("乘法计算RPC调用总共耗时: [%s] 毫秒", sw.getTime());
-        System.out.println(tip);
-    }
+		String tip = String.format("乘法计算RPC调用总共耗时: [%s] 毫秒", sw.getTime());
+		System.out.println(tip);
+	}
 
-    public static void addTask(AddCalculate calc, int parallel) throws InterruptedException {
-        RpcParallelTest.parallelAddCalcTask(calc, parallel);
-        TimeUnit.MILLISECONDS.sleep(30);
-    }
+	public static void addTask(AddCalculate calc, int parallel) throws InterruptedException {
+		RpcParallelTest.parallelAddCalcTask(calc, parallel);
+		TimeUnit.MILLISECONDS.sleep(30);
+	}
 
-    public static void multiTask(MultiCalculate calc, int parallel) throws InterruptedException {
-        RpcParallelTest.parallelMultiCalcTask(calc, parallel);
-        TimeUnit.MILLISECONDS.sleep(30);
-    }
+	public static void multiTask(MultiCalculate calc, int parallel) throws InterruptedException {
+		RpcParallelTest.parallelMultiCalcTask(calc, parallel);
+		TimeUnit.MILLISECONDS.sleep(30);
+	}
 
-    public static void main(String[] args) throws Exception {
-        //并行度1000
-        int parallel = 1000;
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:rpc-invoke-config-client.xml");
-
-        for (int i = 0; i < 1; i++) {
-            addTask((AddCalculate) context.getBean("addCalc"), parallel);
-            multiTask((MultiCalculate) context.getBean("multiCalc"), parallel);
-            System.out.printf("[author tangjie] Netty RPC Server 消息协议序列化第[%d]轮并发验证结束!\n\n", i);
-        }
-
-        context.destroy();
-    }
+	@SuppressWarnings("resource")
+	public static void main(String[] args) throws Exception {
+		// 并行度1000
+		int parallel = 1000;
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+				"classpath:rpc-invoke-config-client.xml");
+		for (int i = 0; i < 1; i++) {
+			addTask((AddCalculate) context.getBean("addCalc"), parallel);
+			multiTask((MultiCalculate) context.getBean("multiCalc"), parallel);
+			System.out.printf("[author tangjie] Netty RPC Server 消息协议序列化第[%d]轮并发验证结束!\n\n", i);
+		}
+		context.destroy();
+	}
 }

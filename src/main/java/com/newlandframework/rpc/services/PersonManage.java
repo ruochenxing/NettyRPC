@@ -17,21 +17,14 @@ package com.newlandframework.rpc.services;
 
 import com.newlandframework.rpc.services.pojo.Person;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:PersonManage.java
- * @description:PersonManage功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/11/7
- */
 public interface PersonManage {
-    int save(Person p);
+	int save(Person p);
 
-    void query(Person p);
+	void query(Person p);
 
-    void query(long timeout);
+	void query(long timeout);
 
-    void check();
+	void check();
 
-    boolean checkAge(Person p);
+	boolean checkAge(Person p);
 }

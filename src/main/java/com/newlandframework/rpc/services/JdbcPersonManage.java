@@ -19,19 +19,10 @@ import com.newlandframework.rpc.services.pojo.Person;
 
 import java.util.List;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:JdbcPersonManage.java
- * @description:JdbcPersonManage功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2017/9/25
- */
 public interface JdbcPersonManage {
-    int save(Person p);
+	int save(Person p);
 
-    void query(Person p);
+	void query(Person p);
 
-    List<Person> query();
+	List<Person> query();
 }
-
-

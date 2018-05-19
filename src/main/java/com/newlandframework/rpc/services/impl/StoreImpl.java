@@ -18,21 +18,16 @@ package com.newlandframework.rpc.services.impl;
 import com.newlandframework.rpc.services.Store;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:StoreImpl.java
- * @description:StoreImpl功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2017/7/28
+ * service impl
  */
 public class StoreImpl implements Store {
-    @Override
-    public void save(String object) {
-        System.out.println("StoreImpl ## save string:[" + object + "]");
-    }
+	@Override
+	public void save(String object) {
+		System.out.println("StoreImpl ## save string:[" + object + "]");
+	}
 
-    @Override
-    public void save(int x) {
-        System.out.println("StoreImpl ## save int:[" + x + "]");
-    }
+	@Override
+	public void save(int x) {
+		System.out.println("StoreImpl ## save int:[" + x + "]");
+	}
 }
-

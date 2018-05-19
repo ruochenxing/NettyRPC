@@ -19,26 +19,19 @@ import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:ProtostuffSerializeFactory.java
- * @description:ProtostuffSerializeFactory功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
- */
 public class ProtostuffSerializeFactory extends BasePooledObjectFactory<ProtostuffSerialize> {
 
-    @Override
-    public ProtostuffSerialize create() throws Exception {
-        return createProtostuff();
-    }
+	@Override
+	public ProtostuffSerialize create() throws Exception {
+		return createProtostuff();
+	}
 
-    @Override
-    public PooledObject<ProtostuffSerialize> wrap(ProtostuffSerialize protostuff) {
-        return new DefaultPooledObject<ProtostuffSerialize>(protostuff);
-    }
+	@Override
+	public PooledObject<ProtostuffSerialize> wrap(ProtostuffSerialize protostuff) {
+		return new DefaultPooledObject<ProtostuffSerialize>(protostuff);
+	}
 
-    private ProtostuffSerialize createProtostuff() {
-        return new ProtostuffSerialize();
-    }
+	private ProtostuffSerialize createProtostuff() {
+		return new ProtostuffSerialize();
+	}
 }

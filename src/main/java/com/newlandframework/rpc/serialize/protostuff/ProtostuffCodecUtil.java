@@ -24,55 +24,50 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:ProtostuffCodecUtil.java
- * @description:ProtostuffCodecUtil功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * Protostuff方式的RPC编码、解码器工具类
  */
 public class ProtostuffCodecUtil implements MessageCodecUtil {
-    private static Closer closer = Closer.create();
-    private ProtostuffSerializePool pool = ProtostuffSerializePool.getProtostuffPoolInstance();
-    private boolean rpcDirect = false;
+	private static Closer closer = Closer.create();
+	private ProtostuffSerializePool pool = ProtostuffSerializePool.getProtostuffPoolInstance();
+	private boolean rpcDirect = false;
 
-    public boolean isRpcDirect() {
-        return rpcDirect;
-    }
+	public boolean isRpcDirect() {
+		return rpcDirect;
+	}
 
-    public void setRpcDirect(boolean rpcDirect) {
-        this.rpcDirect = rpcDirect;
-    }
+	public void setRpcDirect(boolean rpcDirect) {
+		this.rpcDirect = rpcDirect;
+	}
 
-    @Override
-    public void encode(final ByteBuf out, final Object message) throws IOException {
-        try {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            closer.register(byteArrayOutputStream);
-            ProtostuffSerialize protostuffSerialization = pool.borrow();
-            protostuffSerialization.serialize(byteArrayOutputStream, message);
-            byte[] body = byteArrayOutputStream.toByteArray();
-            int dataLength = body.length;
-            out.writeInt(dataLength);
-            out.writeBytes(body);
-            pool.restore(protostuffSerialization);
-        } finally {
-            closer.close();
-        }
-    }
+	@Override
+	public void encode(final ByteBuf out, final Object message) throws IOException {
+		try {
+			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+			closer.register(byteArrayOutputStream);
+			ProtostuffSerialize protostuffSerialization = pool.borrow();
+			protostuffSerialization.serialize(byteArrayOutputStream, message);
+			byte[] body = byteArrayOutputStream.toByteArray();
+			int dataLength = body.length;
+			out.writeInt(dataLength);
+			out.writeBytes(body);
+			pool.restore(protostuffSerialization);
+		} finally {
+			closer.close();
+		}
+	}
 
-    @Override
-    public Object decode(byte[] body) throws IOException {
-        try {
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(body);
-            closer.register(byteArrayInputStream);
-            ProtostuffSerialize protostuffSerialization = pool.borrow();
-            protostuffSerialization.setRpcDirect(rpcDirect);
-            Object obj = protostuffSerialization.deserialize(byteArrayInputStream);
-            pool.restore(protostuffSerialization);
-            return obj;
-        } finally {
-            closer.close();
-        }
-    }
+	@Override
+	public Object decode(byte[] body) throws IOException {
+		try {
+			ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(body);
+			closer.register(byteArrayInputStream);
+			ProtostuffSerialize protostuffSerialization = pool.borrow();
+			protostuffSerialization.setRpcDirect(rpcDirect);
+			Object obj = protostuffSerialization.deserialize(byteArrayInputStream);
+			pool.restore(protostuffSerialization);
+			return obj;
+		} finally {
+			closer.close();
+		}
+	}
 }
-

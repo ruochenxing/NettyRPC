@@ -15,18 +15,10 @@
  */
 package com.newlandframework.rpc.services;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:Cache.java
- * @description:Cache功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2017/7/28
- */
 public interface Cache {
 
-    void put(Object key, Object value);
+	void put(Object key, Object value);
 
-    Object get(Object key);
+	Object get(Object key);
 
 }
-

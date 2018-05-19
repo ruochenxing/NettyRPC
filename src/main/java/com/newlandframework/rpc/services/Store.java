@@ -15,16 +15,8 @@
  */
 package com.newlandframework.rpc.services;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:Store.java
- * @description:Store功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2017/7/28
- */
 public interface Store {
-    void save(String object);
+	void save(String object);
 
-    void save(int x);
+	void save(int x);
 }
-

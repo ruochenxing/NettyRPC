@@ -18,15 +18,12 @@ package com.newlandframework.rpc.event;
 import org.springframework.context.ApplicationEvent;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:ServerStartEvent.java
- * @description:ServerStartEvent功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * @description:ServerStartEvent功能模块 自定义事件
  */
 public class ServerStartEvent extends ApplicationEvent {
-    public ServerStartEvent(Object source) {
-        super(source);
-    }
-}
+	private static final long serialVersionUID = 485138748092882361L;
 
+	public ServerStartEvent(Object source) {
+		super(source);
+	}
+}

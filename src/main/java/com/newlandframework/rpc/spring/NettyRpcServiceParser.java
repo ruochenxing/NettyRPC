@@ -22,29 +22,26 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.w3c.dom.Element;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:NettyRpcServiceParser.java
- * @description:NettyRpcServiceParser功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * Spring的自定义标签的实现 parser实现
  */
 public class NettyRpcServiceParser implements BeanDefinitionParser {
-    @Override
-    public BeanDefinition parse(Element element, ParserContext parserContext) {
-        String interfaceName = element.getAttribute("interfaceName");
-        String ref = element.getAttribute("ref");
-        String filter = element.getAttribute("filter");
+	@Override
+	public BeanDefinition parse(Element element, ParserContext parserContext) {
+		String interfaceName = element.getAttribute("interfaceName");
+		String ref = element.getAttribute("ref");
+		String filter = element.getAttribute("filter");
 
-        RootBeanDefinition beanDefinition = new RootBeanDefinition();
-        beanDefinition.setBeanClass(NettyRpcService.class);
-        beanDefinition.setLazyInit(false);
-        beanDefinition.getPropertyValues().addPropertyValue("interfaceName", interfaceName);
-        beanDefinition.getPropertyValues().addPropertyValue("ref", ref);
-        beanDefinition.getPropertyValues().addPropertyValue("filter", filter);
+		// 代表一个从配置源（XML，Java Config等）中生成的BeanDefinition
+		RootBeanDefinition beanDefinition = new RootBeanDefinition();
+		beanDefinition.setBeanClass(NettyRpcService.class);
+		beanDefinition.setLazyInit(false);
+		beanDefinition.getPropertyValues().addPropertyValue("interfaceName", interfaceName);
+		beanDefinition.getPropertyValues().addPropertyValue("ref", ref);
+		beanDefinition.getPropertyValues().addPropertyValue("filter", filter);
 
-        parserContext.getRegistry().registerBeanDefinition(interfaceName, beanDefinition);
+		// BeanDefinitionRegistry的作用主要是向注册表中注册 BeanDefinition 实例，完成 注册的过程
+		parserContext.getRegistry().registerBeanDefinition(interfaceName, beanDefinition);
 
-        return beanDefinition;
-    }
+		return beanDefinition;
+	}
 }
-

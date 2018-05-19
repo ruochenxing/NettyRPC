@@ -19,41 +19,36 @@ import com.google.common.reflect.Reflection;
 import com.newlandframework.rpc.serialize.RpcSerializeProtocol;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:MessageSendExecutor.java
- * @description:MessageSendExecutor功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * RPC调用客户端定义实现 动态代理了MessageSendProxy
  */
 public class MessageSendExecutor {
-    private static class MessageSendExecutorHolder {
-        private static final MessageSendExecutor INSTANCE = new MessageSendExecutor();
-    }
+	private static class MessageSendExecutorHolder {
+		private static final MessageSendExecutor INSTANCE = new MessageSendExecutor();
+	}
 
-    public static MessageSendExecutor getInstance() {
-        return MessageSendExecutorHolder.INSTANCE;
-    }
+	public static MessageSendExecutor getInstance() {
+		return MessageSendExecutorHolder.INSTANCE;
+	}
 
-    private RpcServerLoader loader = RpcServerLoader.getInstance();
+	private RpcServerLoader loader = RpcServerLoader.getInstance();
 
-    private MessageSendExecutor() {
+	private MessageSendExecutor() {
 
-    }
+	}
 
-    public MessageSendExecutor(String serverAddress, RpcSerializeProtocol serializeProtocol) {
-        loader.load(serverAddress, serializeProtocol);
-    }
+	public MessageSendExecutor(String serverAddress, RpcSerializeProtocol serializeProtocol) {
+		loader.load(serverAddress, serializeProtocol);
+	}
 
-    public void setRpcServerLoader(String serverAddress, RpcSerializeProtocol serializeProtocol) {
-        loader.load(serverAddress, serializeProtocol);
-    }
+	public void setRpcServerLoader(String serverAddress, RpcSerializeProtocol serializeProtocol) {
+		loader.load(serverAddress, serializeProtocol);
+	}
 
-    public void stop() {
-        loader.unLoad();
-    }
+	public void stop() {
+		loader.unLoad();
+	}
 
-    public <T> T execute(Class<T> rpcInterface) throws Exception {
-        return (T) Reflection.newProxy(rpcInterface, new MessageSendProxy<T>());
-    }
+	public <T> T execute(Class<T> rpcInterface) throws Exception {
+		return (T) Reflection.newProxy(rpcInterface, new MessageSendProxy<T>());
+	}
 }
-

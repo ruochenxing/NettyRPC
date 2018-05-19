@@ -19,29 +19,25 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:RpcSerializeProtocol.java
- * @description:RpcSerializeProtocol功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * 抽象出RPC消息序列化，协议类型对象
  */
 public enum RpcSerializeProtocol {
 
-    JDKSERIALIZE("jdknative"), KRYOSERIALIZE("kryo"), HESSIANSERIALIZE("hessian"), PROTOSTUFFSERIALIZE("protostuff");
+	JDKSERIALIZE("jdknative"), KRYOSERIALIZE("kryo"), HESSIANSERIALIZE("hessian"), PROTOSTUFFSERIALIZE("protostuff");
 
-    private String serializeProtocol;
+	private String serializeProtocol;
 
-    private RpcSerializeProtocol(String serializeProtocol) {
-        this.serializeProtocol = serializeProtocol;
-    }
+	private RpcSerializeProtocol(String serializeProtocol) {
+		this.serializeProtocol = serializeProtocol;
+	}
 
-    @Override
-    public String toString() {
-        ReflectionToStringBuilder.setDefaultStyle(ToStringStyle.SHORT_PREFIX_STYLE);
-        return ReflectionToStringBuilder.toString(this);
-    }
+	@Override
+	public String toString() {
+		ReflectionToStringBuilder.setDefaultStyle(ToStringStyle.SHORT_PREFIX_STYLE);
+		return ReflectionToStringBuilder.toString(this);
+	}
 
-    public String getProtocol() {
-        return serializeProtocol;
-    }
+	public String getProtocol() {
+		return serializeProtocol;
+	}
 }

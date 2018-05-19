@@ -21,37 +21,34 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:AbortPolicy.java
- * @description:AbortPolicy功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * 直接拒绝执行，抛出rejectedExecution异常。
  */
 public class AbortPolicy extends ThreadPoolExecutor.AbortPolicy {
-    private static final Logger LOG = LoggerFactory.getLogger(AbortPolicy.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AbortPolicy.class);
 
-    private String threadName;
+	private String threadName;
 
-    public AbortPolicy() {
-        this(null);
-    }
+	public AbortPolicy() {
+		this(null);
+	}
 
-    public AbortPolicy(String threadName) {
-        this.threadName = threadName;
-    }
+	public AbortPolicy(String threadName) {
+		this.threadName = threadName;
+	}
 
-    @Override
-    public void rejectedExecution(Runnable runnable, ThreadPoolExecutor executor) {
-        if (threadName != null) {
-            LOG.error("RPC Thread pool [{}] is exhausted, executor={}", threadName, executor.toString());
-        }
-        String msg = String.format("RpcServer["
-                        + " Thread Name: %s, Pool Size: %d (active: %d, core: %d, max: %d, largest: %d), Task: %d (completed: %d),"
-                        + " Executor status:(isShutdown:%s, isTerminated:%s, isTerminating:%s)]",
-                threadName, executor.getPoolSize(), executor.getActiveCount(), executor.getCorePoolSize(), executor.getMaximumPoolSize(), executor.getLargestPoolSize(),
-                executor.getTaskCount(), executor.getCompletedTaskCount(), executor.isShutdown(), executor.isTerminated(), executor.isTerminating());
-        System.out.println(msg);
-        super.rejectedExecution(runnable, executor);
-    }
+	@Override
+	public void rejectedExecution(Runnable runnable, ThreadPoolExecutor executor) {
+		if (threadName != null) {
+			LOG.error("RPC Thread pool [{}] is exhausted, executor={}", threadName, executor.toString());
+		}
+		String msg = String.format("RpcServer["
+				+ " Thread Name: %s, Pool Size: %d (active: %d, core: %d, max: %d, largest: %d), Task: %d (completed: %d),"
+				+ " Executor status:(isShutdown:%s, isTerminated:%s, isTerminating:%s)]", threadName,
+				executor.getPoolSize(), executor.getActiveCount(), executor.getCorePoolSize(),
+				executor.getMaximumPoolSize(), executor.getLargestPoolSize(), executor.getTaskCount(),
+				executor.getCompletedTaskCount(), executor.isShutdown(), executor.isTerminated(),
+				executor.isTerminating());
+		System.out.println(msg);
+		super.rejectedExecution(runnable, executor);
+	}
 }
-

@@ -22,29 +22,25 @@ import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:NettyRpcReferenceParser.java
- * @description:NettyRpcReferenceParser功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * Spring的自定义标签的实现 parser实现
  */
 public class NettyRpcReferenceParser implements BeanDefinitionParser {
-    @Override
-    public BeanDefinition parse(Element element, ParserContext parserContext) {
-        String interfaceName = element.getAttribute("interfaceName");
-        String id = element.getAttribute("id");
-        String ipAddr = element.getAttribute("ipAddr");
-        String protocolType = element.getAttribute("protocol");
+	@Override
+	public BeanDefinition parse(Element element, ParserContext parserContext) {
+		String interfaceName = element.getAttribute("interfaceName");
+		String id = element.getAttribute("id");
+		String ipAddr = element.getAttribute("ipAddr");
+		String protocolType = element.getAttribute("protocol");
 
-        RootBeanDefinition beanDefinition = new RootBeanDefinition();
-        beanDefinition.setBeanClass(NettyRpcReference.class);
-        beanDefinition.setLazyInit(false);
+		RootBeanDefinition beanDefinition = new RootBeanDefinition();
+		beanDefinition.setBeanClass(NettyRpcReference.class);
+		beanDefinition.setLazyInit(false);
 
-        beanDefinition.getPropertyValues().addPropertyValue("interfaceName", interfaceName);
-        beanDefinition.getPropertyValues().addPropertyValue("ipAddr", ipAddr);
-        beanDefinition.getPropertyValues().addPropertyValue("protocol", protocolType);
+		beanDefinition.getPropertyValues().addPropertyValue("interfaceName", interfaceName);
+		beanDefinition.getPropertyValues().addPropertyValue("ipAddr", ipAddr);
+		beanDefinition.getPropertyValues().addPropertyValue("protocol", protocolType);
 
-        parserContext.getRegistry().registerBeanDefinition(id, beanDefinition);
-        return beanDefinition;
-    }
+		parserContext.getRegistry().registerBeanDefinition(id, beanDefinition);
+		return beanDefinition;
+	}
 }

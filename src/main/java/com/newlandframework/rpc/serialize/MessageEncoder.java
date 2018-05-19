@@ -20,23 +20,20 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:MessageEncoder.java
- * @description:MessageEncoder功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * RPC消息的编码器MessageEncoder
+ * 
+ * RPC消息对象编码成二进制流的格式
  */
 public class MessageEncoder extends MessageToByteEncoder<Object> {
 
-    private MessageCodecUtil util = null;
+	private MessageCodecUtil util = null;
 
-    public MessageEncoder(final MessageCodecUtil util) {
-        this.util = util;
-    }
+	public MessageEncoder(final MessageCodecUtil util) {
+		this.util = util;
+	}
 
-    @Override
-    protected void encode(final ChannelHandlerContext ctx, final Object msg, final ByteBuf out) throws Exception {
-        util.encode(out, msg);
-    }
+	@Override
+	protected void encode(final ChannelHandlerContext ctx, final Object msg, final ByteBuf out) throws Exception {
+		util.encode(out, msg);
+	}
 }
-

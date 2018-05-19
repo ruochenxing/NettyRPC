@@ -25,71 +25,69 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:NettyRpcReference.java
- * @description:NettyRpcReference功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * nettyrpc:reference自定义标签实体类
+ * 
+ * 封装自己定制的实例化逻辑(例如你想用工厂模式来实例化，或者Class.getInstance())，然后让spring统一管理( Spirng提供的工厂Bean, 方便)
  */
-public class NettyRpcReference implements FactoryBean, InitializingBean, DisposableBean {
-    private String interfaceName;
-    private String ipAddr;
-    private String protocol;
-    private EventBus eventBus = new EventBus();
+public class NettyRpcReference implements FactoryBean<Object>, InitializingBean, DisposableBean {
+	private String interfaceName;
+	private String ipAddr;
+	private String protocol;
+	private EventBus eventBus = new EventBus();
 
-    public String getIpAddr() {
-        return ipAddr;
-    }
+	public String getIpAddr() {
+		return ipAddr;
+	}
 
-    public void setIpAddr(String ipAddr) {
-        this.ipAddr = ipAddr;
-    }
+	public void setIpAddr(String ipAddr) {
+		this.ipAddr = ipAddr;
+	}
 
-    public String getInterfaceName() {
-        return interfaceName;
-    }
+	public String getInterfaceName() {
+		return interfaceName;
+	}
 
-    public void setInterfaceName(String interfaceName) {
-        this.interfaceName = interfaceName;
-    }
+	public void setInterfaceName(String interfaceName) {
+		this.interfaceName = interfaceName;
+	}
 
-    public String getProtocol() {
-        return protocol;
-    }
+	public String getProtocol() {
+		return protocol;
+	}
 
-    public void setProtocol(String protocol) {
-        this.protocol = protocol;
-    }
+	public void setProtocol(String protocol) {
+		this.protocol = protocol;
+	}
 
-    @Override
-    public void destroy() throws Exception {
-        eventBus.post(new ClientStopEvent(0));
-    }
+	@Override
+	public void destroy() throws Exception {
+		eventBus.post(new ClientStopEvent(0));
+	}
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        MessageSendExecutor.getInstance().setRpcServerLoader(ipAddr, RpcSerializeProtocol.valueOf(protocol));
-        ClientStopEventListener listener = new ClientStopEventListener();
-        eventBus.register(listener);
-    }
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		MessageSendExecutor.getInstance().setRpcServerLoader(ipAddr, RpcSerializeProtocol.valueOf(protocol));
+		ClientStopEventListener listener = new ClientStopEventListener();
+		eventBus.register(listener);
+	}
 
-    @Override
-    public Object getObject() throws Exception {
-        return MessageSendExecutor.getInstance().execute(getObjectType());
-    }
+	@Override
+	public Object getObject() throws Exception {
+		return MessageSendExecutor.getInstance().execute(getObjectType());
+	}
 
-    @Override
-    public Class<?> getObjectType() {
-        try {
-            return this.getClass().getClassLoader().loadClass(interfaceName);
-        } catch (ClassNotFoundException e) {
-            System.err.println("spring analyze fail!");
-        }
-        return null;
-    }
+	@Override
+	public Class<?> getObjectType() {
+		try {
+			return this.getClass().getClassLoader().loadClass(interfaceName);
+		} catch (ClassNotFoundException e) {
+			System.err.println("spring analyze fail!");
+		}
+		return null;
+	}
 
-    @Override
-    public boolean isSingleton() {
-        return true;
-    }
+	@Override
+	public boolean isSingleton() {
+		return true;
+	}
 }

@@ -26,47 +26,41 @@ import com.google.common.collect.ClassToInstanceMap;
 import com.google.common.collect.MutableClassToInstanceMap;
 import io.netty.channel.ChannelPipeline;
 
-
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:RpcSendSerializeFrame.java
- * @description:RpcSendSerializeFrame功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * NettyRPC的客户端也是可以选择协议类型的，必须注意的是，NettyRPC的客户端和服务端的协议类型必须一致，才能互相通信。
  */
 public class RpcSendSerializeFrame implements RpcSerializeFrame {
-    private static ClassToInstanceMap<NettyRpcSendHandler> handler = MutableClassToInstanceMap.create();
+	private static ClassToInstanceMap<NettyRpcSendHandler> handler = MutableClassToInstanceMap.create();
 
-    static {
-        handler.putInstance(JdkNativeSendHandler.class, new JdkNativeSendHandler());
-        handler.putInstance(KryoSendHandler.class, new KryoSendHandler());
-        handler.putInstance(HessianSendHandler.class, new HessianSendHandler());
-        handler.putInstance(ProtostuffSendHandler.class, new ProtostuffSendHandler());
-    }
+	static {
+		handler.putInstance(JdkNativeSendHandler.class, new JdkNativeSendHandler());
+		handler.putInstance(KryoSendHandler.class, new KryoSendHandler());
+		handler.putInstance(HessianSendHandler.class, new HessianSendHandler());
+		handler.putInstance(ProtostuffSendHandler.class, new ProtostuffSendHandler());
+	}
 
-    @Override
-    public void select(RpcSerializeProtocol protocol, ChannelPipeline pipeline) {
-        switch (protocol) {
-            case JDKSERIALIZE: {
-                handler.getInstance(JdkNativeSendHandler.class).handle(pipeline);
-                break;
-            }
-            case KRYOSERIALIZE: {
-                handler.getInstance(KryoSendHandler.class).handle(pipeline);
-                break;
-            }
-            case HESSIANSERIALIZE: {
-                handler.getInstance(HessianSendHandler.class).handle(pipeline);
-                break;
-            }
-            case PROTOSTUFFSERIALIZE: {
-                handler.getInstance(ProtostuffSendHandler.class).handle(pipeline);
-                break;
-            }
-            default: {
-                break;
-            }
-        }
-    }
+	// 后续可以优化成通过spring ioc方式注入
+	@Override
+	public void select(RpcSerializeProtocol protocol, ChannelPipeline pipeline) {
+		switch (protocol) {
+		case JDKSERIALIZE: {
+			handler.getInstance(JdkNativeSendHandler.class).handle(pipeline);
+			break;
+		}
+		case KRYOSERIALIZE: {
+			handler.getInstance(KryoSendHandler.class).handle(pipeline);
+			break;
+		}
+		case HESSIANSERIALIZE: {
+			handler.getInstance(HessianSendHandler.class).handle(pipeline);
+			break;
+		}
+		case PROTOSTUFFSERIALIZE: {
+			handler.getInstance(ProtostuffSendHandler.class).handle(pipeline);
+			break;
+		}
+		default:
+			break;
+		}
+	}
 }
-

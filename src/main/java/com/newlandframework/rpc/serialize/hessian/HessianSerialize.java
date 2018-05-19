@@ -25,41 +25,37 @@ import java.io.OutputStream;
 import com.newlandframework.rpc.serialize.RpcSerialize;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:HessianSerialize.java
- * @description:HessianSerialize功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * RPC消息序列化/反序列化接口
  */
 public class HessianSerialize implements RpcSerialize {
 
-    @Override
-    public void serialize(OutputStream output, Object object) {
-        Hessian2Output ho = new Hessian2Output(output);
-        try {
-            ho.startMessage();
-            ho.writeObject(object);
-            ho.completeMessage();
-            ho.close();
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+	@Override
+	public void serialize(OutputStream output, Object object) {
+		Hessian2Output ho = new Hessian2Output(output);
+		try {
+			ho.startMessage();
+			ho.writeObject(object);
+			ho.completeMessage();
+			ho.close();
+			output.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-    @Override
-    public Object deserialize(InputStream input) {
-        Object result = null;
-        try {
-            Hessian2Input hi = new Hessian2Input(input);
-            hi.startMessage();
-            result = hi.readObject();
-            hi.completeMessage();
-            hi.close();
-            input.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
+	@Override
+	public Object deserialize(InputStream input) {
+		Object result = null;
+		try {
+			Hessian2Input hi = new Hessian2Input(input);
+			hi.startMessage();
+			result = hi.readObject();
+			hi.completeMessage();
+			hi.close();
+			input.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

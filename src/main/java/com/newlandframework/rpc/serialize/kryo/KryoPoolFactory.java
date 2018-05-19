@@ -23,46 +23,42 @@ import com.newlandframework.rpc.model.MessageResponse;
 import org.objenesis.strategy.StdInstantiatorStrategy;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:KryoPoolFactory.java
- * @description:KryoPoolFactory功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * Kryo对象池工厂
  */
 public class KryoPoolFactory {
 
-    private static volatile KryoPoolFactory poolFactory = null;
+	private static volatile KryoPoolFactory poolFactory = null;
 
-    private KryoFactory factory = new KryoFactory() {
-        @Override
-        public Kryo create() {
-            Kryo kryo = new Kryo();
-            kryo.setReferences(false);
-            kryo.register(MessageRequest.class);
-            kryo.register(MessageResponse.class);
-            kryo.setInstantiatorStrategy(new StdInstantiatorStrategy());
-            return kryo;
-        }
-    };
+	private KryoFactory factory = new KryoFactory() {
+		@Override
+		public Kryo create() {
+			Kryo kryo = new Kryo();
+			kryo.setReferences(false);
+			// 把已知的结构注册到Kryo注册器里面，提高序列化/反序列化效率
+			kryo.register(MessageRequest.class);
+			kryo.register(MessageResponse.class);
+			kryo.setInstantiatorStrategy(new StdInstantiatorStrategy());
+			return kryo;
+		}
+	};
 
-    private KryoPool pool = new KryoPool.Builder(factory).build();
+	private KryoPool pool = new KryoPool.Builder(factory).build();
 
-    private KryoPoolFactory() {
-    }
+	private KryoPoolFactory() {
+	}
 
-    public static KryoPool getKryoPoolInstance() {
-        if (poolFactory == null) {
-            synchronized (KryoPoolFactory.class) {
-                if (poolFactory == null) {
-                    poolFactory = new KryoPoolFactory();
-                }
-            }
-        }
-        return poolFactory.getPool();
-    }
+	public static KryoPool getKryoPoolInstance() {
+		if (poolFactory == null) {
+			synchronized (KryoPoolFactory.class) {
+				if (poolFactory == null) {
+					poolFactory = new KryoPoolFactory();
+				}
+			}
+		}
+		return poolFactory.getPool();
+	}
 
-    public KryoPool getPool() {
-        return pool;
-    }
+	public KryoPool getPool() {
+		return pool;
+	}
 }
-

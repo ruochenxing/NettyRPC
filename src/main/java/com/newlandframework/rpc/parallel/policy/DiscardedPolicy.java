@@ -23,39 +23,35 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:DiscardedPolicy.java
- * @description:DiscardedPolicy功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
+ * 从任务队列的头部开始直接丢弃一半的队列元素，为任务队列“减负”。
  */
 public class DiscardedPolicy implements RejectedExecutionHandler {
-    private static final Logger LOG = LoggerFactory.getLogger(DiscardedPolicy.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DiscardedPolicy.class);
 
-    private String threadName;
+	private String threadName;
 
-    public DiscardedPolicy() {
-        this(null);
-    }
+	public DiscardedPolicy() {
+		this(null);
+	}
 
-    public DiscardedPolicy(String threadName) {
-        this.threadName = threadName;
-    }
+	public DiscardedPolicy(String threadName) {
+		this.threadName = threadName;
+	}
 
-    @Override
-    public void rejectedExecution(Runnable runnable, ThreadPoolExecutor executor) {
-        if (threadName != null) {
-            LOG.error("RPC Thread pool [{}] is exhausted, executor={}", threadName, executor.toString());
-        }
+	@Override
+	public void rejectedExecution(Runnable runnable, ThreadPoolExecutor executor) {
+		if (threadName != null) {
+			LOG.error("RPC Thread pool [{}] is exhausted, executor={}", threadName, executor.toString());
+		}
 
-        if (!executor.isShutdown()) {
-            BlockingQueue<Runnable> queue = executor.getQueue();
-            int discardSize = queue.size() >> 1;
-            for (int i = 0; i < discardSize; i++) {
-                queue.poll();
-            }
+		if (!executor.isShutdown()) {
+			BlockingQueue<Runnable> queue = executor.getQueue();
+			int discardSize = queue.size() >> 1;
+			for (int i = 0; i < discardSize; i++) {
+				queue.poll();
+			}
 
-            queue.offer(runnable);
-        }
-    }
+			queue.offer(runnable);
+		}
+	}
 }
