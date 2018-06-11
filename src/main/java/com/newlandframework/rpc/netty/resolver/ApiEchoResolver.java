@@ -59,6 +59,7 @@ public class ApiEchoResolver implements Callable<Boolean> {
 			b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
 					.handler(new LoggingHandler(LogLevel.INFO)).childHandler(new ApiEchoInitializer(sslCtx));
 
+			// 启动echo api
 			Channel ch = b.bind(port).sync().channel();
 
 			System.err.println("You can open your web browser see NettyRPC server api interface: "

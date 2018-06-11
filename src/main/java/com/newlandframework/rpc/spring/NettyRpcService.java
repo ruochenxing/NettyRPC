@@ -43,10 +43,11 @@ public class NettyRpcService implements ApplicationContextAware, ApplicationList
 
 	/***
 	 * 对消息进行接受处理
+	 * 
+	 * 系统每调用一次applicationContext.publishEvent 该方法就会被调用
 	 */
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
-		System.out.println("onApplicationEvent \t" + interfaceName);
 		ServiceFilterBinder binder = new ServiceFilterBinder();
 
 		if (StringUtils.isBlank(filter) || !(applicationContext.getBean(filter) instanceof Filter)) {
@@ -55,15 +56,15 @@ public class NettyRpcService implements ApplicationContextAware, ApplicationList
 			binder.setObject(applicationContext.getBean(ref));
 			binder.setFilter((Filter) applicationContext.getBean(filter));
 		}
-
+		// handlerMap.put
 		MessageRecvExecutor.getInstance().getHandlerMap().put(interfaceName, binder);
 	}
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		System.out.println("setApplicationContext publishEvent");
 		this.applicationContext = applicationContext;
 		// 事件发布
+		// AbstractApplicationContext.finishRefresh也会调用一次publishEvent
 		applicationContext.publishEvent(new ServerStartEvent(new Object()));
 	}
 

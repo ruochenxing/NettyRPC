@@ -22,4 +22,5 @@ MessageRecvChannelInitializer.initChannel->RpcRecvSerializeFrame.select->Protost
 
 
 MessageRecvChannelInitializer.initChannel->RpcRecvSerializeFrame.select->ProtostuffRecvHandler.handle
-ProtostuffCodecUtil.decode->MessageRecvHandler.channelRead->ProtostuffCodecUtil.encode
+ProtostuffCodecUtil.decode->MessageRecvHandler.channelRead->AbstractMessageRecvInitializeTask.call
+->AbstractMessageRecvInitializeTask.reflect->AbstractMessageRecvInitializeTask.invoke->ProtostuffCodecUtil.encode

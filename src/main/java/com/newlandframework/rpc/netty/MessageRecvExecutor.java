@@ -148,7 +148,11 @@ public class MessageRecvExecutor implements ApplicationContextAware {
 		}
 	}
 
-	// NettyRpcRegistery调用
+	/**
+	 * NettyRpcRegistery调用
+	 * 
+	 * 启动rpc服务器端 启动echo api
+	 */
 	public void start() {
 		try {
 			ServerBootstrap bootstrap = new ServerBootstrap();
@@ -163,6 +167,7 @@ public class MessageRecvExecutor implements ApplicationContextAware {
 				final String host = ipAddr[0];
 				final int port = Integer.parseInt(ipAddr[1]);
 				ChannelFuture future = null;
+				// 启动rpc服务器端
 				future = bootstrap.bind(host, port).sync();
 
 				future.addListener(new ChannelFutureListener() {
@@ -173,6 +178,7 @@ public class MessageRecvExecutor implements ApplicationContextAware {
 							final ExecutorService executor = Executors.newFixedThreadPool(numberOfEchoThreadsPool);
 							ExecutorCompletionService<Boolean> completionService = new ExecutorCompletionService<Boolean>(
 									executor);
+							// 启动echo api
 							completionService.submit(new ApiEchoResolver(host, echoApiPort));
 							System.out.printf(
 									"[author tangjie] Netty RPC Server start success!\nip:%s\nport:%d\nprotocol:%s\nstart-time:%s\njmx-invoke-metrics:%s\n\n",
@@ -200,6 +206,9 @@ public class MessageRecvExecutor implements ApplicationContextAware {
 		boss.shutdownGracefully();
 	}
 
+	/**
+	 * handlerMap.put
+	 */
 	private void register() {
 		handlerMap.put(RpcSystemConfig.RPC_COMPILER_SPI_ATTR, new AccessAdaptiveProvider());
 		handlerMap.put(RpcSystemConfig.RPC_ABILITY_DETAIL_SPI_ATTR, new AbilityDetailProvider());
