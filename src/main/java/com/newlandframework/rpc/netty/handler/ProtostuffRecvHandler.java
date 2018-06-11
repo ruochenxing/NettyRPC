@@ -31,13 +31,12 @@ import java.util.Map;
  * @since 2016/10/7
  */
 public class ProtostuffRecvHandler implements NettyRpcRecvHandler {
-    @Override
-    public void handle(Map<String, Object> handlerMap, ChannelPipeline pipeline) {
-        ProtostuffCodecUtil util = new ProtostuffCodecUtil();
-        util.setRpcDirect(true);
-        pipeline.addLast(new ProtostuffEncoder(util));
-        pipeline.addLast(new ProtostuffDecoder(util));
-        pipeline.addLast(new MessageRecvHandler(handlerMap));
-    }
+	@Override
+	public void handle(Map<String, Object> handlerMap, ChannelPipeline pipeline) {
+		ProtostuffCodecUtil util = new ProtostuffCodecUtil();
+		util.setRpcDirect(true);
+		pipeline.addLast(new ProtostuffEncoder(util));// out
+		pipeline.addLast(new ProtostuffDecoder(util));// in
+		pipeline.addLast(new MessageRecvHandler(handlerMap));// in
+	}
 }
-

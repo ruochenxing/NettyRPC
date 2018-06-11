@@ -22,28 +22,23 @@ import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.ssl.SslContext;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:ApiEchoInitializer.java
- * @description:ApiEchoInitializer功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2017/5/2
+ * API接口页面请求处理
  */
 public class ApiEchoInitializer extends ChannelInitializer<SocketChannel> {
 
-    private final SslContext sslCtx;
+	private final SslContext sslCtx;
 
-    public ApiEchoInitializer(SslContext sslCtx) {
-        this.sslCtx = sslCtx;
-    }
+	public ApiEchoInitializer(SslContext sslCtx) {
+		this.sslCtx = sslCtx;
+	}
 
-    @Override
-    public void initChannel(SocketChannel ch) {
-        ChannelPipeline p = ch.pipeline();
-        if (sslCtx != null) {
-            p.addLast(sslCtx.newHandler(ch.alloc()));
-        }
-        p.addLast(new HttpServerCodec());
-        p.addLast(new ApiEchoHandler());
-    }
+	@Override
+	public void initChannel(SocketChannel ch) {
+		ChannelPipeline p = ch.pipeline();
+		if (sslCtx != null) {
+			p.addLast(sslCtx.newHandler(ch.alloc()));
+		}
+		p.addLast(new HttpServerCodec());
+		p.addLast(new ApiEchoHandler());
+	}
 }
-

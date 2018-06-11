@@ -42,6 +42,10 @@ public class RpcRecvSerializeFrame implements RpcSerializeFrame {
 		this.handlerMap = handlerMap;
 	}
 
+	/**
+	 * 返回一个使用new HashMap<Class<? extends B>, B>()作为代理的MutableClassToInstanceMap
+	 * 内部调用的是MutableClassToInstanceMap(Map<Class<? extends B>, B> delegate)这个私有构造方法
+	 */
 	private static ClassToInstanceMap<NettyRpcRecvHandler> handler = MutableClassToInstanceMap.create();
 
 	static {

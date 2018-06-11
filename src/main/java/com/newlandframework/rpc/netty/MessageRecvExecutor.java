@@ -169,6 +169,7 @@ public class MessageRecvExecutor implements ApplicationContextAware {
 					@Override
 					public void operationComplete(final ChannelFuture channelFuture) throws Exception {
 						if (channelFuture.isSuccess()) {
+							// https://www.cnblogs.com/E-star/p/4882154.html
 							final ExecutorService executor = Executors.newFixedThreadPool(numberOfEchoThreadsPool);
 							ExecutorCompletionService<Boolean> completionService = new ExecutorCompletionService<Boolean>(
 									executor);

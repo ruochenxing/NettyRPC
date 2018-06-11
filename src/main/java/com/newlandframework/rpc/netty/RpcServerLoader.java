@@ -85,7 +85,7 @@ public class RpcServerLoader {
 			int port = Integer.parseInt(ipAddr[1]);
 			final InetSocketAddress remoteAddr = new InetSocketAddress(host, port);
 
-			System.out.printf("[author tangjie] Netty RPC Client start success!\nip:%s\nport:%d\nprotocol:%s\n\n", host,
+			System.out.printf("Netty RPC Client start success!\nip:%s\nport:%d\nprotocol:%s\n\n", host,
 					port, serializeProtocol);
 
 			ListenableFuture<Boolean> listenableFuture = threadPoolExecutor

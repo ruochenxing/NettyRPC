@@ -46,6 +46,7 @@ public class NettyRpcService implements ApplicationContextAware, ApplicationList
 	 */
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
+		System.out.println("onApplicationEvent \t" + interfaceName);
 		ServiceFilterBinder binder = new ServiceFilterBinder();
 
 		if (StringUtils.isBlank(filter) || !(applicationContext.getBean(filter) instanceof Filter)) {
@@ -60,6 +61,7 @@ public class NettyRpcService implements ApplicationContextAware, ApplicationList
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		System.out.println("setApplicationContext publishEvent");
 		this.applicationContext = applicationContext;
 		// 事件发布
 		applicationContext.publishEvent(new ServerStartEvent(new Object()));

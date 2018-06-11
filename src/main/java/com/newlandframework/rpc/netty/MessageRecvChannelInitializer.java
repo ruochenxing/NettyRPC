@@ -42,6 +42,8 @@ public class MessageRecvChannelInitializer extends ChannelInitializer<SocketChan
 		frame = new RpcRecvSerializeFrame(handlerMap);
 	}
 
+	// 当新连接accept的时候，这个方法会调用
+	// 注册请求的处理handle
 	@Override
 	protected void initChannel(SocketChannel socketChannel) throws Exception {
 		ChannelPipeline pipeline = socketChannel.pipeline();

@@ -13,5 +13,13 @@
 ##   ### ##          ##       ##       ##    ##    ##  ##        ##    ## 
 ##    ## ########    ##       ##       ##    ##     ## ##         ######  
 
-Author:唐洁（tangjie）http://www.cnblogs.com/jietang/
+RpcServerStarter.main->NettyRpcRegisteryParser.parse->NettyRpcRegistery.afterPropertiesSet->MessageRecvExecutor.start->
+MessageRecvChannelInitializer->MessageRecvChannelInitializer.buildRpcSerializeProtocol
 
+收到消息
+MessageRecvChannelInitializer.initChannel->RpcRecvSerializeFrame.select->ProtostuffRecvHandler.handle
+MessageRecvChannelInitializer.initChannel->RpcRecvSerializeFrame.select->ProtostuffRecvHandler.handle
+
+
+MessageRecvChannelInitializer.initChannel->RpcRecvSerializeFrame.select->ProtostuffRecvHandler.handle
+ProtostuffCodecUtil.decode->MessageRecvHandler.channelRead->ProtostuffCodecUtil.encode

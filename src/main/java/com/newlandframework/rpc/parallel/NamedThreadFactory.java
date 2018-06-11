@@ -21,11 +21,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:NamedThreadFactory.java
  * @description:NamedThreadFactory功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2016/10/7
  */
 public class NamedThreadFactory implements ThreadFactory {
 
@@ -50,7 +46,9 @@ public class NamedThreadFactory implements ThreadFactory {
 	public NamedThreadFactory(String prefix, boolean daemo) {
 		this.prefix = StringUtils.isNotEmpty(prefix) ? prefix + "-thread-" : "";
 		daemoThread = daemo;
+		// 不添加启动参数直接运行，则相当于没有启动管理器，SecurityManager打印出来为null
 		SecurityManager s = System.getSecurityManager();// TODO ???
+		// https://blog.csdn.net/hjh200507609/article/details/50330773
 		threadGroup = (s == null) ? Thread.currentThread().getThreadGroup() : s.getThreadGroup();
 	}
 
